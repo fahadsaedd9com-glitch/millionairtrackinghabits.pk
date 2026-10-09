@@ -1,0 +1,5 @@
+# ONLY for the split deployment (frontend on Netlify, backend elsewhere).
+# Netlify cannot run this Express/SQLite server. Set the API_URL env var in Netlify to the backend URL.
+[build]
+  publish = "public"
+  command = "node scripts/write-config.js"

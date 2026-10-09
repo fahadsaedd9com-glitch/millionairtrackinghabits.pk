@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Millionaire Tracking Habits</title><meta name="theme-color" content="#16a34a">
+<style>
+:root{--g:#16a34a;--gd:#15803d;--gl:#f0fdf4;--gb:#dcfce7;--tx:#14231b;--mu:#6b7280;--bd:#e5e7eb;--bg:#fff;--card:#fff;--sh:0 4px 16px rgba(20,35,27,.07)}
+[data-theme=dark]{--bg:#0f1713;--card:#16221b;--gl:#1b2b22;--gb:#1f3a2a;--tx:#e8f3ec;--mu:#9ab0a2;--bd:#27382e;--sh:none}
+*{box-sizing:border-box}body{margin:0;font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--tx);padding-bottom:72px}
+a{color:var(--gd);text-decoration:none}h1{font-size:clamp(1.4rem,4vw,2rem);margin:.2em 0}h2{margin:.2em 0}.mu{color:var(--mu)}small{color:var(--mu)}
+:focus-visible{outline:3px solid var(--g);outline-offset:2px}
+.btn,button,input,select,textarea{font:inherit}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:44px;padding:0 18px;border-radius:12px;border:1px solid var(--bd);background:var(--card);color:var(--tx);cursor:pointer;transition:.15s}
+.btn:hover{transform:translateY(-1px);box-shadow:var(--sh)}.btn:active{transform:scale(.97)}.btn.p{background:var(--g);border-color:var(--g);color:#fff}.btn.p:hover{background:var(--gd)}.btn.danger{background:#dc2626;border-color:#dc2626}.btn.lg{min-height:52px;padding:0 28px;font-weight:600}
+input,select,textarea{width:100%;min-height:44px;padding:8px 12px;border:1px solid var(--bd);border-radius:10px;background:var(--card);color:var(--tx)}
+label{display:block;font-size:.9rem;font-weight:600;margin:10px 0}label input,label select,label textarea{margin-top:4px;font-weight:400}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:18px;padding:18px;box-shadow:var(--sh);margin:14px 0}
+.top{display:flex;align-items:center;gap:16px;padding:10px 16px;border-bottom:1px solid var(--bd);position:sticky;top:0;background:var(--bg);z-index:5}
+.logo{font-weight:800;color:var(--gd);display:flex;gap:6px;align-items:center}.dn{display:none;gap:4px;margin-left:auto}.dn a{padding:8px 12px;border-radius:10px;color:var(--tx)}.dn a.on,.dn a:hover{background:var(--gb);color:var(--gd)}
+.av{margin-left:auto;width:38px;height:38px;border-radius:50%;background:var(--g);color:#fff;display:grid;place-items:center;font-weight:700}
+.wrap{max-width:980px;margin:0 auto;padding:16px}
+.bn{position:fixed;bottom:0;left:0;right:0;display:flex;background:var(--bg);border-top:1px solid var(--bd);padding-bottom:env(safe-area-inset-bottom);z-index:5}
+.bn a{flex:1;text-align:center;padding:8px 2px;font-size:.72rem;color:var(--mu);min-height:56px}.bn a i{display:block;font-style:normal;font-size:1.25rem}.bn a.on{color:var(--g);font-weight:700}
+@media(min-width:768px){.dn{display:flex}.av{margin-left:0}.bn{display:none}body{padding-bottom:0}}
+.bar{height:12px;background:var(--gb);border-radius:99px;overflow:hidden;margin-top:10px}.bar i{display:block;height:100%;width:0;background:var(--g);border-radius:99px;transition:width .4s}
+.prog b{font-size:1.2rem}.bar2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0}.bar2 input[type=search]{grid-column:1/-1}@media(min-width:768px){.bar2{grid-template-columns:2fr 1fr 1fr 1fr auto}.bar2 input[type=search]{grid-column:auto}}
+.tl{list-style:none;padding:0;margin:0;display:grid;gap:10px}
+.task{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:12px;box-shadow:var(--sh);transition:.2s}.task:hover{border-color:var(--g)}
+.task.done{background:var(--gl);border-color:var(--gb)}.task.done b{text-decoration:line-through;color:var(--mu)}.task.miss{border-color:#fca5a5}
+.tb{flex:1;min-width:0;display:flex;flex-direction:column}.tb small{display:block}
+.ck{width:44px;height:44px;border-radius:12px;border:2px solid var(--bd);background:var(--card);color:#fff;font-size:1.3rem;cursor:pointer;flex:none;transition:.15s}.ck:hover{border-color:var(--g)}.task.done .ck{background:var(--g);border-color:var(--g)}
+.xb,.ib{width:40px;height:40px;border-radius:10px;border:1px solid var(--bd);background:var(--card);color:var(--mu);cursor:pointer;flex:none}.task.miss .xb{background:#dc2626;color:#fff;border-color:#dc2626}.ib:hover{color:var(--g)}
+.empty{text-align:center;padding:40px 16px;list-style:none;background:var(--gl);border-radius:18px}.empty h2{margin-bottom:4px}
+.dnav{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}.dnav h1{flex:1;text-align:center;min-width:180px;order:-1;width:100%}@media(min-width:600px){.dnav h1{order:0;width:auto}}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}.cal b{text-align:center;font-size:.75rem;color:var(--mu)}
+.cal a{aspect-ratio:1;border-radius:10px;border:1px solid var(--bd);display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:.8rem;color:var(--tx);min-height:44px}.cal a:hover{border-color:var(--g)}.cal a.now{outline:2px solid var(--g)}.cal a small{font-size:.65rem;color:inherit}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}@media(min-width:768px){.grid{grid-template-columns:repeat(4,1fr)}}.grid .card{margin:0;text-align:center}.grid .n{font-size:1.8rem;font-weight:800;color:var(--gd)}
+.chart{display:flex;align-items:flex-end;gap:4px;height:150px}.chart div{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;height:100%;font-size:.65rem;color:var(--mu)}.chart i{width:100%;background:var(--g);border-radius:6px 6px 0 0;min-height:2px}
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.45);display:flex;align-items:flex-end;justify-content:center;z-index:20}@media(min-width:600px){.ov{align-items:center}}
+.modal{background:var(--card);width:100%;max-width:560px;max-height:92vh;overflow:auto;border-radius:20px 20px 0 0;padding:20px}@media(min-width:600px){.modal{border-radius:20px}}
+.row{display:flex;gap:10px;justify-content:flex-end;margin-top:14px}.g2{display:grid;grid-template-columns:1fr 1fr;gap:0 10px}
+fieldset{border:1px solid var(--bd);border-radius:12px}.chips{display:flex;flex-wrap:wrap;gap:6px}.chip{margin:0}.chip input{position:absolute;opacity:0;width:1px;min-height:0}.chip span{display:block;padding:8px 12px;border:1px solid var(--bd);border-radius:99px;cursor:pointer;min-width:48px;text-align:center}.chip input:checked+span{background:var(--g);color:#fff;border-color:var(--g)}.chip input:focus-visible+span{outline:3px solid var(--g)}
+label.chk{display:flex;gap:8px;align-items:center}label.chk input{width:22px;min-height:22px;margin:0}
+#toasts{position:fixed;top:12px;left:50%;transform:translateX(-50%);z-index:50;display:grid;gap:8px;width:min(92vw,360px)}.toast{background:var(--tx);color:var(--bg);padding:12px 16px;border-radius:12px;box-shadow:0 6px 20px rgba(0,0,0,.2)}.toast.err{background:#dc2626;color:#fff}
+.sk{height:64px;border-radius:16px;background:linear-gradient(90deg,var(--gl),var(--gb),var(--gl));background-size:200%;animation:s 1.2s infinite;margin:10px 0}@keyframes s{to{background-position:-200%}}
+.hero{text-align:center;padding:48px 8px}.hero h1{font-size:clamp(2rem,7vw,3.4rem);line-height:1.1}.hero p{max-width:560px;margin:12px auto 24px;color:var(--mu)}.hero .btn{margin:4px}
+.feat{display:grid;gap:12px}@media(min-width:768px){.feat{grid-template-columns:repeat(3,1fr)}}.feat .card{margin:0}.feat span{font-size:1.6rem}
+.auth{max-width:400px;margin:40px auto}footer{text-align:center;color:var(--mu);padding:30px 0}.lnav{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;max-width:980px;margin:auto}
+</style></head><body><div id="app"></div><div id="toasts" aria-live="polite"></div>
+<script src="config.js"></script>
+<script>
+const $=s=>document.querySelector(s),app=$('#app');
+let ME=null,CATS=[],TODAY=[],S={time12:true,min_pct:100,week_start:0,theme:'system',notify:false},F={q:'',cat:'',st:'',pr:''};
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const iso=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`,pd=s=>new Date(s+'T00:00:00'),today=()=>iso(new Date()),add=(s,n)=>{const d=pd(s);d.setDate(d.getDate()+n);return iso(d)};
+const ft=t=>{if(!t)return'';if(!S.time12)return t;const[h,m]=t.split(':');return`${h%12||12}:${m} ${h<12?'AM':'PM'}`};
+const fd=(s,o)=>pd(s).toLocaleDateString(undefined,o||{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+function toast(m,t){const e=document.createElement('div');e.className='toast '+(t||'');e.textContent=m;$('#toasts').append(e);setTimeout(()=>e.remove(),2800)}
+const API=((window.APP_CONFIG&&window.APP_CONFIG.API_URL)||'').replace(/\/+$/,'');
+class AuthError extends Error{}
+const E=(m,status)=>Object.assign(new Error(m),{status});
+const fail=e=>{if(!(e instanceof AuthError))toast(e.message,'err')};
+async function api(m,u,b){let r;
+ try{r=await fetch(API+'/api'+u,{method:m,credentials:'include',headers:{'Content-Type':'application/json'},body:b?JSON.stringify(b):undefined})}
+ catch{throw E('Cannot reach the server. Check your connection'+(API?' and that the API is running at '+API:'')+'.')}
+ let j=null;if((r.headers.get('content-type')||'').includes('application/json')){try{j=await r.json()}catch{j=null}}
+ if(j===null)throw E(r.ok?'The server sent an unexpected (non-JSON) response. The API URL may be misconfigured.':`Server error (${r.status}). Please try again.`,r.status);
+ if(r.status===401&&ME){ME=null;TODAY=[];toast('Your session expired. Please log in again.','err');const was=location.hash;location.hash='#/login';if(was==='#/login')route();throw new AuthError('Session expired')}
+ if(!r.ok)throw E(j.error||'Something went wrong.',r.status);return j}
+function modal(html){const o=document.createElement('div');o.className='ov';o.innerHTML=`<div class=modal role=dialog aria-modal=true>${html}</div>`;o.close=()=>{o.remove();document.removeEventListener('keydown',k)};
+ const k=e=>e.key==='Escape'&&o.close();document.addEventListener('keydown',k);o.addEventListener('click',e=>{if(e.target===o||e.target.matches('[data-c]'))o.close()});document.body.append(o);const f=o.querySelector('input,button');f&&f.focus();return o}
+const ask=m=>new Promise(res=>{const o=modal(`<h3>Delete routine?</h3><p>${esc(m)}</p><div class=row><button class=btn data-c>Cancel</button><button class="btn p danger" data-y>Delete</button></div>`);o.addEventListener('click',e=>{if(e.target.matches('[data-y]')){o.close();res(true)}})});
+function applyTheme(){document.documentElement.dataset.theme=S.theme==='system'?(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'):S.theme}
+const skel=()=>app.innerHTML='<div class=wrap><div class=sk></div><div class=sk></div><div class=sk></div></div>';
+function shell(inner,act){const L=k=>k==='day'?'#/day/'+today():'#/'+k,N=[['dashboard','Dashboard'],['day','Today'],['calendar','Calendar'],['stats','Statistics'],['routines','Routines'],['settings','Settings']],B=[['dashboard','Home','⌂'],['day','Today','✓'],['calendar','Calendar','▦'],['stats','Stats','▮'],['settings','Settings','⚙']];
+ app.innerHTML=`<header class=top><a class=logo href="#/dashboard">🌱 <span>Millionaire Tracking Habits</span></a><nav class=dn aria-label=Main>${N.map(([k,t])=>`<a href="${L(k)}" class="${k===act?'on':''}">${t}</a>`).join('')}</nav><a class=av href="#/settings" aria-label="Profile and settings">${esc(ME.name[0].toUpperCase())}</a></header><main class=wrap>${inner}</main><nav class=bn aria-label="Mobile navigation">${B.map(([k,t,i])=>`<a href="${L(k)}" class="${k===act?'on':''}"><i>${i}</i>${t}</a>`).join('')}</nav>`}
+async function loadCats(){CATS=await api('GET','/categories')}
+// ---------- routine form
+function routineForm(r,after){const n=!r;r=r||{name:'',description:'',days:'0,1,2,3,4,5,6',priority:'medium',start_date:today(),category:'Personal'};const dn=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+ const o=modal(`<h3>${n?'Add Routine':'Edit Routine'}</h3><form id=rf><label>Routine name<input name=name required maxlength=100 value="${esc(r.name)}" placeholder="e.g. Study LAT"></label>
+ <label>Description (optional)<textarea name=description maxlength=500>${esc(r.description)}</textarea></label>
+ <div class=g2><label>Category<input name=category list=cl maxlength=40 value="${esc(r.category)}"><datalist id=cl>${CATS.map(c=>`<option value="${esc(c)}">`).join('')}</datalist></label>
+ <label>Priority<select name=priority>${['low','medium','high'].map(p=>`<option ${p===r.priority?'selected':''}>${p}</option>`).join('')}</select></label>
+ <label>Start time<input type=time name=start_time value="${r.start_time||''}"></label><label>End time<input type=time name=end_time value="${r.end_time||''}"></label>
+ <label>Start date<input type=date name=start_date required value="${r.start_date}"></label><label>End date (optional)<input type=date name=end_date value="${r.end_date||''}"></label></div>
+ <fieldset><legend>Repeat</legend><div class=chips>${dn.map((d,i)=>`<label class=chip><input type=checkbox name=day value=${i} ${r.days.split(',').includes(''+i)?'checked':''}><span>${d}</span></label>`).join('')}</div></fieldset>
+ <label class=chk><input type=checkbox name=reminder ${r.reminder?'checked':''}> Remind me at start time</label>
+ <div class=row><button type=button class=btn data-c>Cancel</button><button class="btn p">Save</button></div></form>`);
+ o.querySelector('#rf').onsubmit=async e=>{e.preventDefault();const f=new FormData(e.target),b=Object.fromEntries(f);b.days=f.getAll('day');b.reminder=f.has('reminder');
+  try{await api(n?'POST':'PUT','/routines'+(n?'':'/'+r.id),b);o.close();toast(n?'Routine added ✓':'Routine updated ✓');await loadCats();TODAY=await api('GET','/day/'+today()).catch(()=>TODAY);after()}catch(x){fail(x)}}}
+// ---------- day view / dashboard
+async function dayPage(date,dash){skel();const rs=await api('GET','/day/'+date);if(date===today())TODAY=rs;const hr=new Date().getHours(),gr=hr<12?'morning':hr<17?'afternoon':'evening';
+ const head=dash?`<h1>Good ${gr}, ${esc(ME.name.split(' ')[0])}</h1><p class=mu>${fd(date)}</p>`:`<div class=dnav><a class=btn href="#/day/${add(date,-1)}">← Previous Day</a><h1>${fd(date)}</h1><a class=btn href="#/day/${add(date,1)}">Next Day →</a></div>`;
+ shell(`${head}<section class="card prog"><b id=pt></b> <small id=ps></small><div class=bar role=progressbar aria-label="Completion" aria-valuemin=0 aria-valuemax=100><i id=pb></i></div></section>
+ <div class=bar2><input id=fq type=search placeholder="Search routines" aria-label="Search routines" value="${esc(F.q)}"><select id=fc aria-label="Filter by category"><option value="">All categories</option>${CATS.map(c=>`<option ${c===F.cat?'selected':''}>${esc(c)}</option>`).join('')}</select>
+ <select id=fs aria-label="Filter by status"><option value="">All</option><option value=done ${F.st==='done'?'selected':''}>Completed</option><option value=todo ${F.st==='todo'?'selected':''}>Incomplete</option></select>
+ <select id=fp aria-label="Filter by priority"><option value="">Any priority</option>${['high','medium','low'].map(p=>`<option ${p===F.pr?'selected':''}>${p}</option>`).join('')}</select><button class="btn p" id=add>+ Add Routine</button></div><ul class=tl id=tl></ul>${dash?'<p><a href="#/routines">Manage all routines →</a></p>':''}`,dash?'dashboard':'day');
+ const card=x=>`<li class="task ${x.status===1?'done':''} ${x.status===0?'miss':''}"><button class=ck aria-label="Completed: ${esc(x.name)}" aria-pressed="${x.status===1}" data-id=${x.id} data-s=1>${x.status===1?'✓':''}</button><div class=tb><b>${esc(x.name)}</b><small>${x.start_time?ft(x.start_time)+(x.end_time?' – '+ft(x.end_time):'')+' · ':''}${esc(x.category)} · ${x.priority}</small></div><button class=xb aria-label="Not completed: ${esc(x.name)}" aria-pressed="${x.status===0}" data-id=${x.id} data-s=0>✕</button><button class=ib aria-label="Edit ${esc(x.name)}" data-e=${x.id}>✎</button></li>`;
+ const draw=()=>{const d=rs.filter(x=>x.status===1).length,t=rs.length,p=t?Math.round(d/t*100):0;$('#pt').textContent=`${d} / ${t} tasks completed`;$('#ps').textContent=`· ${t-d} incomplete · ${p}%`;$('#pb').style.width=p+'%';$('.bar').setAttribute('aria-valuenow',p);
+  const v=rs.filter(x=>(!F.q||x.name.toLowerCase().includes(F.q.toLowerCase()))&&(!F.cat||x.category===F.cat)&&(!F.pr||x.priority===F.pr)&&(!F.st||(F.st==='done')===(x.status===1)));
+  $('#tl').innerHTML=!t?`<li class=empty><h2>Your day starts here.</h2><p class=mu>You haven't created any routines yet.</p><button class="btn p lg" data-first>+ Create Your First Routine</button></li>`:v.length?v.map(card).join(''):'<li class=mu>No routines match your filters.</li>'};
+ draw();
+ $('#tl').onclick=async e=>{const b=e.target.closest('button');if(!b)return;if('first'in b.dataset)return routineForm(null,()=>route());if(b.dataset.e)return routineForm(rs.find(x=>x.id==b.dataset.e),()=>route());
+  const x=rs.find(x=>x.id==b.dataset.id),s=+b.dataset.s,old=x.status,ns=old===s?null:s;x.status=ns;draw();
+  try{await api('PUT','/track',{routine_id:x.id,date,status:ns});toast(ns===1?'Routine completed ✓':ns===0?'Marked not completed':'Status cleared')}catch(er){x.status=old;draw();fail(er)}};
+ $('#fq').oninput=e=>{F.q=e.target.value;draw()};$('#fc').onchange=e=>{F.cat=e.target.value;draw()};$('#fs').onchange=e=>{F.st=e.target.value;draw()};$('#fp').onchange=e=>{F.pr=e.target.value;draw()};$('#add').onclick=()=>routineForm(null,()=>route())}
+// ---------- routines manager
+async function routinesPage(){skel();const rs=await api('GET','/routines');let q='',c='',p='',a='';
+ shell(`<h1>My Routines</h1><div class=bar2><input id=rq type=search placeholder="Search routines" aria-label="Search routines"><select id=rc aria-label=Category><option value="">All categories</option>${CATS.map(x=>`<option>${esc(x)}</option>`).join('')}</select><select id=rp aria-label=Priority><option value="">Any priority</option><option>high</option><option>medium</option><option>low</option></select><select id=ra aria-label=State><option value="">Active & paused</option><option value=1>Active</option><option value=0>Paused</option></select><button class="btn p" id=add>+ Add Routine</button></div><ul class=tl id=tl></ul>`,'routines');
+ const draw=()=>{const v=rs.filter(x=>(!q||x.name.toLowerCase().includes(q))&&(!c||x.category===c)&&(!p||x.priority===p)&&(!a||String(x.active)===a));
+  $('#tl').innerHTML=!rs.length?`<li class=empty><h2>Your day starts here.</h2><p class=mu>You haven't created any routines yet.</p><button class="btn p lg" data-first>+ Create Your First Routine</button></li>`:v.map(x=>`<li class=task style="${x.active?'':'opacity:.6'}"><div class=tb><b>${esc(x.name)} ${x.active?'':'(paused)'}</b><small>${x.start_time?ft(x.start_time)+' · ':''}${esc(x.category)} · ${x.priority} · ${x.days.split(',').map(d=>'SMTWTFS'[d]).join(' ')}</small></div>
+  <button class=ib data-a=up data-id=${x.id} aria-label="Move up">↑</button><button class=ib data-a=down data-id=${x.id} aria-label="Move down">↓</button><button class=ib data-a=edit data-id=${x.id} aria-label="Edit">✎</button><button class=ib data-a=dup data-id=${x.id} aria-label="Duplicate">⧉</button><button class=ib data-a=tog data-id=${x.id} aria-label="${x.active?'Pause':'Resume'}">${x.active?'⏸':'▶'}</button><button class=ib data-a=del data-id=${x.id} aria-label="Delete">🗑</button></li>`).join('')||'<li class=mu>No routines match.</li>'};
+ draw();const ref=async()=>{TODAY=await api('GET','/day/'+today()).catch(()=>TODAY);route()};
+ $('#tl').onclick=async e=>{const b=e.target.closest('button');if(!b)return;if('first'in b.dataset)return routineForm(null,ref);const i=rs.findIndex(x=>x.id==b.dataset.id),x=rs[i],ac=b.dataset.a;
+  try{if(ac==='edit')return routineForm(x,ref);if(ac==='del'){if(await ask(`"${x.name}" and all its history will be permanently deleted.`)){await api('DELETE','/routines/'+x.id);toast('Routine deleted');ref()}return}
+   if(ac==='dup'){await api('POST',`/routines/${x.id}/duplicate`);toast('Routine duplicated ✓')}if(ac==='tog'){await api('POST',`/routines/${x.id}/toggle`);toast(x.active?'Routine paused':'Routine resumed ✓')}
+   if(ac==='up'||ac==='down'){const j=i+(ac==='up'?-1:1);if(j<0||j>=rs.length)return;[rs[i],rs[j]]=[rs[j],rs[i]];await api('POST','/routines/reorder',{ids:rs.map(x=>x.id)})}ref()}catch(er){fail(er)}};
+ $('#rq').oninput=e=>{q=e.target.value.toLowerCase();draw()};$('#rc').onchange=e=>{c=e.target.value;draw()};$('#rp').onchange=e=>{p=e.target.value;draw()};$('#ra').onchange=e=>{a=e.target.value;draw()};$('#add').onclick=()=>routineForm(null,ref)}
+// ---------- calendar
+async function calPage(ym){ym=ym||today().slice(0,7);skel();const[y,m]=ym.split('-').map(Number),{days}=await api('GET','/month/'+ym),dim=new Date(y,m,0).getDate(),off=(new Date(y,m-1,1).getDay()-S.week_start+7)%7,nm=n=>iso(new Date(y,m-1+n,1)).slice(0,7);
+ const names=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].map((_,i,a)=>a[(i+S.week_start)%7]);let cells='';for(let i=0;i<off;i++)cells+='<span></span>';
+ for(let d=1;d<=dim;d++){const ds=`${ym}-${String(d).padStart(2,'0')}`,x=days[ds],p=x&&x.total?Math.round(x.done/x.total*100):null;
+  cells+=`<a href="#/day/${ds}" class="${ds===today()?'now':''}" style="${p!==null?`background:rgba(22,163,74,${(.08+p/100*.55).toFixed(2)})`:''}" aria-label="${fd(ds)}: ${p===null?'no routines':p+'% completed'}">${d}<small>${p===null?'-':p===100?'✓':p+'%'}</small></a>`}
+ shell(`<div class=dnav><a class=btn href="#/calendar/${nm(-1)}" aria-label="Previous month">←</a><h1>${new Date(y,m-1,1).toLocaleDateString(undefined,{month:'long',year:'numeric'})}</h1><a class=btn href="#/calendar/${nm(1)}" aria-label="Next month">→</a></div><div class=card><div class=cal>${names.map(n=>`<b>${n}</b>`).join('')}${cells}</div></div><p class=mu>Tap a date to view or edit that day. Darker green = higher completion.</p>`,'calendar')}
+// ---------- stats
+async function statsPage(){skel();const s=await api('GET','/stats?today='+today()),bars=(a,l)=>`<div class=chart>${a.map(x=>`<div title="${x.pct}%"><span>${x.total?x.pct+'%':''}</span><i style="height:${x.pct}%"></i><span>${l(x.date)}</span></div>`).join('')}</div>`;
+ shell(`<h1>Statistics</h1><div class=card style="text-align:center"><div style="font-size:2rem">🔥 <b>Current Streak: ${s.current} ${s.current===1?'Day':'Days'}</b></div><p class=mu>Best streak: ${s.best} days · A day counts when you complete at least ${s.min}% of its tasks.</p></div>
+ <div class=grid>${[['Today',s.today+'%'],['This week',s.weekly+'%'],['This month',s.monthly+'%'],['Active routines',s.active],['Completed',s.done],['Incomplete',s.missed],['Current streak',s.current],['Best streak',s.best]].map(([a,b])=>`<div class=card><div class=n>${b}</div><small>${a}</small></div>`).join('')}</div>
+ <div class=card><h2>Last 7 days</h2>${bars(s.week,d=>fd(d,{weekday:'short'}))}</div><div class=card><h2>This month</h2>${bars(s.month,d=>+d.slice(8))}</div>`,'stats')}
+// ---------- settings
+function settingsPage(){shell(`<h1>Settings</h1><form class=card id=pf><h2>Profile & preferences</h2><label>Name<input name=name required maxlength=60 value="${esc(ME.name)}"></label><label>Email<input type=email name=email required value="${esc(ME.email)}"></label>
+ <label>Minimum completion for a successful day (%)<input type=number name=min_pct min=1 max=100 value="${S.min_pct}"></label>
+ <div class=g2><label>Start of week<select name=week_start><option value=0>Sunday</option><option value=1 ${S.week_start==1?'selected':''}>Monday</option></select></label><label>Time format<select name=time12><option value=1>12-hour</option><option value="" ${S.time12?'':'selected'}>24-hour</option></select></label></div>
+ <label>Theme<select name=theme>${['system','light','dark'].map(t=>`<option ${t===S.theme?'selected':''}>${t}</option>`).join('')}</select></label><label class=chk><input type=checkbox name=notify ${S.notify?'checked':''}> Browser reminders for routines</label><div class=row><button class="btn p">Save changes</button></div></form>
+ <form class=card id=wf><h2>Change password</h2><label>Current password<input type=password name=current required autocomplete=current-password></label><label>New password (min 8 characters)<input type=password name=next required minlength=8 autocomplete=new-password></label><div class=row><button class="btn p">Update password</button></div></form>
+ <button class="btn" id=lo>Log out</button>`,'settings');
+ $('#pf').onsubmit=async e=>{e.preventDefault();const f=new FormData(e.target);const settings={min_pct:f.get('min_pct'),week_start:f.get('week_start'),time12:!!f.get('time12'),theme:f.get('theme'),notify:f.has('notify')};
+  try{if(settings.notify&&'Notification'in window&&Notification.permission==='default')await Notification.requestPermission();if(settings.notify&&!('Notification'in window&&Notification.permission==='granted')){settings.notify=false;toast('Notifications are blocked in your browser.','err')}
+   const j=await api('PUT','/me',{name:f.get('name'),email:f.get('email'),settings});ME=j.user;S=j.settings;applyTheme();toast('Settings saved ✓');settingsPage()}catch(x){fail(x)}};
+ $('#wf').onsubmit=async e=>{e.preventDefault();const f=new FormData(e.target);try{await api('PUT','/password',{current:f.get('current'),next:f.get('next')});e.target.reset();toast('Password updated ✓')}catch(x){fail(x)}};
+ $('#lo').onclick=async()=>{try{await api('POST','/logout')}catch(x){if(!(x instanceof AuthError))return fail(x)}ME=null;TODAY=[];location.hash='#/'}}
+// ---------- public pages
+function landing(){const go=ME?'#/dashboard':'#/signup';app.innerHTML=`<div class=lnav><a class=logo href="#/">🌱 Millionaire Tracking Habits</a><span><a class=btn href="${ME?'#/dashboard':'#/login'}">${ME?'Dashboard':'Login'}</a></span></div><div class=wrap>
+ <section class=hero><h1>Build Better Days, One Routine at a Time.</h1><p>Create your daily routine, track your progress, and build consistent habits with a simple and powerful routine tracker.</p><a class="btn p lg" href="${go}">Get Started</a><a class="btn lg" href="${ME?'#/dashboard':'#/login'}">Login</a></section>
+ <h2>Features</h2><div class=feat>${[['✅','Daily tracking','Mark each routine ✓ or ✕ every day. Past days are never overwritten.'],['▦','Monthly calendar','See every day of the month at a glance and jump into any date.'],['📈','Stats & streaks','Weekly and monthly progress, current and best streaks.'],['🗂','Categories','Organize by Health, Study, Work or your own categories.'],['🔔','Reminders','Optional browser reminders at the time you choose.'],['📱','Works everywhere','Designed for phone, tablet and desktop.']].map(([i,t,d])=>`<div class=card><span>${i}</span><h3>${t}</h3><p class=mu>${d}</p></div>`).join('')}</div>
+ <h2 style="margin-top:32px">How it works</h2><div class=feat>${['Create your routines and pick the days they repeat.','Tick off tasks as you complete them each day.','Watch your streak and statistics grow.'].map((t,i)=>`<div class=card><span>${i+1}</span><p>${t}</p></div>`).join('')}</div>
+ <h2 style="margin-top:32px">Benefits</h2><div class=card><p>Stay consistent without the clutter. See exactly where your time goes, spot the habits that stick, and stay motivated with streaks that reward showing up every day.</p></div>
+</div><footer>© ${new Date().getFullYear()} Millionaire Tracking Habits</footer>`}
+function authPage(kind,token){const T={login:['Welcome back','Log in',`<label>Email<input type=email name=email required autocomplete=email></label><label>Password<input type=password name=password required autocomplete=current-password></label>`,'<p><a href="#/forgot">Forgot password?</a> · <a href="#/signup">Create account</a></p>'],
+ signup:['Create your account','Sign up',`<label>Name<input name=name required maxlength=60 autocomplete=name></label><label>Email<input type=email name=email required autocomplete=email></label><label>Password (min 8 characters)<input type=password name=password required minlength=8 autocomplete=new-password></label>`,'<p>Have an account? <a href="#/login">Log in</a></p>'],
+ forgot:['Reset password','Send reset link','<label>Email<input type=email name=email required></label>','<p><a href="#/login">Back to login</a></p>'],reset:['Choose a new password','Update password','<label>New password (min 8 characters)<input type=password name=password required minlength=8 autocomplete=new-password></label>','']}[kind];
+ app.innerHTML=`<div class="wrap auth"><a class=logo href="#/">🌱 Millionaire Tracking Habits</a><form class=card id=af><h2>${T[0]}</h2>${T[2]}<button class="btn p" style="width:100%;margin-top:8px">${T[1]}</button></form>${T[3]}</div>`;
+ $('#af').onsubmit=async e=>{e.preventDefault();const b=Object.fromEntries(new FormData(e.target)),btn=e.target.querySelector('button');btn.disabled=true;
+  try{if(kind==='forgot'){await api('POST','/forgot',b);toast('If that email exists, a reset link has been generated.')}else if(kind==='reset'){await api('POST','/reset',{...b,token});toast('Password updated ✓ Please log in.');location.hash='#/login'}
+   else{const j=await api('POST','/'+kind,b);ME=j.user;S={...S,...j.settings};applyTheme();await loadCats();TODAY=await api('GET','/day/'+today());location.hash='#/dashboard'}}catch(x){fail(x)}btn.disabled=false}}
+// ---------- router
+async function route(){const[p,a]=location.hash.slice(2).split('/');window.scrollTo(0,0);
+ try{if(['login','signup','forgot','reset'].includes(p)&&(!ME||p==='reset'))return authPage(p,a);if(!p)return landing();if(!ME){location.hash='#/login';return}
+  if(!CATS.length)await loadCats();
+  if(p==='dashboard')return await dayPage(today(),true);if(p==='day')return await dayPage(/^\d{4}-\d\d-\d\d$/.test(a)?a:today());if(p==='calendar')return await calPage(/^\d{4}-\d\d$/.test(a)?a:null);
+  if(p==='stats')return await statsPage();if(p==='routines')return await routinesPage();if(p==='settings')return settingsPage();location.hash='#/dashboard'}
+ catch(e){if(e instanceof AuthError)return;app.innerHTML=`<div class=wrap><div class=card><h2>Something went wrong</h2><p>${esc(e.message)}</p><button class="btn p" onclick="route()">Try again</button></div></div>`}}
+const sent=new Set();setInterval(()=>{if(!ME||!S.notify||!('Notification'in window)||Notification.permission!=='granted')return;const n=new Date(),hm=String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0');
+ TODAY.forEach(x=>{const k=today()+x.id+hm;if(x.reminder&&x.start_time===hm&&x.status!==1&&!sent.has(k)){sent.add(k);new Notification('Time for: '+x.name,{body:ft(x.start_time)})}})},20000);
+window.addEventListener('hashchange',route);
+(async()=>{try{const j=await api('GET','/me');ME=j.user;S={...S,...j.settings};TODAY=await api('GET','/day/'+today()).catch(()=>[])}catch(e){ME=null;if(e.status!==401)toast(e.message,'err')}applyTheme();route()})();
+</script></body></html>
